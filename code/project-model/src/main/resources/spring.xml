@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mybatis="http://mybatis.org/schema/mybatis-spring"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:cache="http://www.springframework.org/schema/cache" xmlns:task="http://www.springframework.org/schema/task"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
+    http://mybatis.org/schema/mybatis-spring
+  	http://mybatis.org/schema/mybatis-spring.xsd
+  	http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd
+  	http://www.springframework.org/schema/aop  
+    http://www.springframework.org/schema/aop/spring-aop-4.1.xsd
+    http://www.springframework.org/schema/tx  
+    http://www.springframework.org/schema/tx/spring-tx-4.1.xsd
+    http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context-4.1.xsd
+	http://www.springframework.org/schema/task
+           http://www.springframework.org/schema/task/spring-task-4.1.xsd">
+
+	<!--引入配置属性文件 -->
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath:jdbc.properties</value>
+				<value>classpath:schedule.properties</value>
+			</list>
+		</property>
+	</bean>
+	<!--自动扫描含有@Service将其注入为bean -->
+	<context:component-scan base-package="com.hiynn.project.model.service" />
+
+	<!-- 配置数据源 使用的是druid数据源 -->
+	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource"
+		init-method="init" destroy-method="close">
+		<property name="driverClassName" value="${datasource.driverClass}" />
+		<property name="url" value="${datasource.jdbcUrl}" />
+		<property name="username" value="${datasource.user}" />
+		<property name="password" value="${datasource.password}" />
+		<property name="initialSize" value="${datasource.initialSize}" /> 
+		<property name="minIdle" value="${datasource.minIdle}" /> 
+		<property name="maxActive" value="${datasource.maxActive}" /> 
+		<property name="maxWait" value="${datasource.maxWait}" /> 
+		<property name="timeBetweenEvictionRunsMillis" value="${datasource.timeBetweenEvictionRunsMillis}" /> 
+		<property name="minEvictableIdleTimeMillis" value="${datasource.minEvictableIdleTimeMillis}" /> 
+		<property name="validationQuery" value="${datasource.validationQuery}" /> 
+		<property name="testWhileIdle" value="${datasource.testWhileIdle}" /> 
+		<property name="testOnBorrow" value="${datasource.testOnBorrow}" /> 
+		<property name="testOnReturn" value="${datasource.testOnReturn}" /> 
+		<property name="poolPreparedStatements" value="${datasource.poolPreparedStatements}" />
+		<property name="maxOpenPreparedStatements" value="${datasource.maxOpenPreparedStatements}" /> 
+		<property name="removeAbandoned" value="${datasource.removeAbandoned}" /> 
+		<property name="removeAbandonedTimeout" value="${datasource.removeAbandonedTimeout}" /> 
+		<property name="filters" value="${datasource.filters}" /> 
+		<property name="logAbandoned" value="${datasource.logAbandoned}" /> 
+	</bean>
+
+	<bean name="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager"
+		p:dataSource-ref="dataSource">
+	</bean>
+
+	<!-- 通过aop定义事务增强切面 及性能统计 -->
+	<aop:config>
+		<!--配置事务切入点 把事务控制在Service层 -->
+		<aop:pointcut id="serviceMethod"
+			expression="execution( * com.hiynn.project.model.service.*.*(..))" />
+		<aop:pointcut id="appService"
+			expression="execution(* com.hiynn.project.model.service.*.*(..))" />
+		<aop:pointcut id="appDao"
+			expression="execution(* com.hiynn.project.model.dao.*.*(..))" />
+		<!--对service配置性能统计-->
+		<aop:advisor pointcut-ref="appService" advice-ref="appAroundMethodAdvisor" />
+		<!--对dao配置性能统计-->
+		<aop:advisor pointcut-ref="appDao" advice-ref="appAroundMethodAdvisor" />
+		<!--配置事务通知 -->
+		<aop:advisor pointcut-ref="serviceMethod" advice-ref="txAdvice" />
+	</aop:config>
+
+	<!--性能统计-->
+	<bean id="appAroundMethodAdvisor" class="com.hiynn.project.model.util.EdenAdvisor" />
+
+	<!-- 为事务通知添加事物处理特性 -->
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<tx:method name="delete*" propagation="REQUIRED"
+				rollback-for="java.lang.Exception" />
+			<tx:method name="insert*" propagation="REQUIRED"
+				rollback-for="java.lang.Exception" />
+			<tx:method name="update*" propagation="REQUIRED"
+				rollback-for="java.lang.Exception" />
+			<tx:method name="get*" propagation="SUPPORTS" read-only="true" />
+			<tx:method name="find*" propagation="SUPPORTS" read-only="true" />
+			<tx:method name="select*" propagation="SUPPORTS" read-only="true" />
+		</tx:attributes>
+	</tx:advice>
+
+
+	<!-- mybatis文件配置，扫描所有mapper文件 begin -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean"
+		p:dataSource-ref="dataSource" p:mapperLocations="classpath:mappers/*.xml">
+	</bean>
+
+	<!-- spring与mybatis整合配置，扫描所有dao -->
+	<mybatis:scan base-package="com.hiynn.project.model.dao"></mybatis:scan>
+	<!-- mybatis文件配置，扫描所有mapper文件 end -->
+
+	<!--使用ehcache缓存begin -->
+	<bean id="ehCacheManager"
+		class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
+		<property name="configLocation" value="classpath:ehcache.xml" />
+		<property name="shared" value="true" />
+	</bean>
+
+	<!-- 支持缓存注解 -->
+	<cache:annotation-driven cache-manager="cacheManager" />
+
+	<bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager">
+		<property name="cacheManager" ref="ehCacheManager" />
+	</bean>
+	<!--使用ehcache缓存end -->
+	
+	
+	<!-- spring 配置文件 定时任务 -->
+	<!-- <bean id="taskExecutor"
+		class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+		核心线程数
+		<property name="corePoolSize" value="${task.core_pool_size}" />
+		最大线程数
+		<property name="maxPoolSize" value="${task.max_pool_size}" />
+		队列最大长度
+		<property name="queueCapacity" value="${task.queue_capacity}" />
+		线程池维护线程所允许的空闲时间，默认为60s
+		<property name="keepAliveSeconds" value="${task.keep_alive_seconds}" />
+	</bean>
+
+	<bean name="scheduleTask" class="com.hiynn.project.model.schedule.ScheduleTask"
+		lazy-init="false"></bean>
+		
+	<task:scheduled-tasks>
+		<task:scheduled ref="scheduleTask" method="syncAllUsers"
+			cron="0 */3 * * * ?" />
+	</task:scheduled-tasks> -->
+</beans>           
