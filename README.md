@@ -1,5 +1,5 @@
 ## 项目框架模板使用说明
-[TOC]
+
 ### 框架模板相关说明
 1. 总体框架 spring springmvc mybatis
 2. 默认底层数据库 oracle, DB连接池 druid
@@ -88,9 +88,3 @@ ALTER TABLE "GXLY"."TB_USER" ADD PRIMARY KEY ("UID", "ID");
 3. 在浏览器中输入`http://localhost:8080/project-model/users/all`，请求json数据测试一下
 4. 在浏览器中输入`http://localhost:8080/project-model/index.jsp`测试websocket
 >localhost和8080依个人配置的为准
-
-### 9.上传svn
-
->上传svn前需要和组长确认
-
-项目框架测试无问题后，上传到相应svn目录，并将svn地址发给项目相关成员，供协同开发使用
