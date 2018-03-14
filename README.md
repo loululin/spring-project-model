@@ -88,3 +88,6 @@ ALTER TABLE "GXLY"."TB_USER" ADD PRIMARY KEY ("UID", "ID");
 3. 在浏览器中输入`http://localhost:8080/project-model/users/all`，请求json数据测试一下
 4. 在浏览器中输入`http://localhost:8080/project-model/index.jsp`测试websocket
 >localhost和8080依个人配置的为准
+
+### 9.其它
+1. 加入swagger2支持，使用swagger2新版UI（springfox-swagger-ui），启动项目后，直接访问`http://{ip}:{port}/{projectname}/doc.html`

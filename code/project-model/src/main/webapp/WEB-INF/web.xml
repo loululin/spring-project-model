@@ -69,6 +69,11 @@
 		<servlet-name>appServlet</servlet-name>
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
+	<!-- Configuring the URL request path for swagger-bootstrap-ui -->
+	<servlet-mapping>
+		<servlet-name>appServlet</servlet-name>
+		<url-pattern>/v2/api-docs</url-pattern>
+	</servlet-mapping>
 
 	<servlet-mapping>
 		<servlet-name>default</servlet-name>
