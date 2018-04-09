@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
 
 import com.hiynn.project.model.util.Constants;
 
@@ -30,6 +31,7 @@ import com.hiynn.project.model.util.Constants;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:spring.xml"})
+@WebAppConfiguration
 public class UserMapperTest {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(UserMapperTest.class);
