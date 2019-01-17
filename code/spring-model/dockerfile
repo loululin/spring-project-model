@@ -1,0 +1,3 @@
+FROM 10.0.91.129:8888/java_dev/tomcat:8.0-alpine-apr
+ARG WARPATH 
+COPY $WARPATH /usr/local/tomcat/webapps/
