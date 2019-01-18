@@ -18,18 +18,12 @@ import com.cn.hy.project.modular.dao.UserMapper;
 import com.cn.hy.project.modular.util.Constants;
 
 /**
- * <p>Title: LdrkZhuYeSubMapperTest </p>
- * <p>Description: TODO </p>
- * Date: 2016年8月15日 上午11:18:42
- * @author loulvlin@hiynn.com
- * @version 1.0 </p> 
- * Significant Modify：
- * Date               Author           Content
- * ==========================================================
- * 2016年8月15日         loulvlin         创建文件,实现基本功能
- * 
- * ==========================================================
- */
+* @Description  用户操作测试类
+* @Author LouLvLin
+* @Date  2019/1/17  18:16
+* @Param 
+* @return 
+**/
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:spring.xml"})
 @WebAppConfiguration

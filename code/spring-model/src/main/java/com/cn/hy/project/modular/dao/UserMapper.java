@@ -4,18 +4,12 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * <p>Title: UserMapper </p>
- * <p>Description: TODO </p>
- * Date: 2017年7月13日 下午4:55:57
- * @author loulvlin@hiynn.com
- * @version 1.0 </p> 
- * Significant Modify：
- * Date               Author           Content
- * ==========================================================
- * 2017年7月13日         loulvlin         创建文件,实现基本功能
- * 
- * ==========================================================
- */
+* @Description  UserMapper
+* @Author LouLvLin
+* @Date  2019/1/17  18:17
+* @Param 
+* @return 
+**/
 public interface UserMapper {
 	
 	

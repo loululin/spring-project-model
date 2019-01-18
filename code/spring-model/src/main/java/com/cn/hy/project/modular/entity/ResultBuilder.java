@@ -5,19 +5,12 @@ import java.io.Serializable;
 import com.cn.hy.project.modular.util.Constants;
 
 /**
- * 
- * <p>Title: Result </p>
- * <p>Description: TODO </p>
- * Date: 2016年11月9日 下午4:33:05
- * @author loulvlin@hiynn.com
- * @version 1.0 </p> 
- * Significant Modify：
- * Date               Author           Content
- * ==========================================================
- * 2016年11月9日         loulvlin         创建文件,实现基本功能
- * 
- * ==========================================================
- */
+* @Description  Result
+* @Author LouLvLin
+* @Date  2019/1/17  18:17
+* @Param 
+* @return 
+**/
 public class ResultBuilder implements Serializable {
 	/**
 	 * 

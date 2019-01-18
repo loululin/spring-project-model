@@ -15,18 +15,12 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
 /**
- * <p>Title: ThreadPoolExcuteController </p>
- * <p>Description: TODO </p>
- * Date: 2018年5月21日 下午3:41:11
- * @author hp@hiynn.com
- * @version 1.0 </p> 
- * Significant Modify：
- * Date               Author           Content
- * ==========================================================
- * 2018年5月21日         hp         创建文件,实现基本功能
- * 
- * ==========================================================
- */
+* @Description  ThreadPoolExcuteController
+* @Author LouLvLin
+* @Date  2019/1/17  18:17
+* @Param 
+* @return 
+**/
 @RestController
 @Api(tags="spring线程池")
 public class ThreadPoolExcuteController {
