@@ -45,12 +45,14 @@ public class ThreadPoolExcuteController {
 			public void run() {
 				try {
 					LOGGER.info("执行线程任务开始前");
-                    Thread.currentThread().sleep(10000);
+                    Thread.sleep(10000);
                     if (LOGGER.isDebugEnabled()) {
                     	LOGGER.info("执行线程任务结束");
                     }
                 } catch (InterruptedException e) {
                     LOGGER.error(e.getMessage(),e);
+					// Restore interrupted state...
+					Thread.currentThread().interrupt();
                 }
 				
 			}

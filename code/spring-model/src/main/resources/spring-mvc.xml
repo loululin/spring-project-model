@@ -43,15 +43,6 @@
 			expression="org.springframework.web.bind.annotation.ControllerAdvice" />
 	</context:component-scan>
 
-	<websocket:handlers allowed-origins="*">
-		<websocket:mapping path="/project/users" handler="userHandler" />
-		<!-- <websocket:handshake-interceptors> <bean class="com.hiynn.jizhen.yunwei.websocket.WebSocketHandshakeInterceptor"/> 
-			</websocket:handshake-interceptors> -->
-	</websocket:handlers>
-
-	<bean id="userHandler" class="com.cn.hy.project.modular.websocket.UserHandler" />
-
-
 	<!-- Configure to plugin JSON as request and response in method handler -->
 	<bean
 		class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">

@@ -135,11 +135,11 @@
 	<!-- spring 线程池配置  end -->
 
 	<!-- spring 配置文件 定时任务 start -->
-<!--	<bean name="scheduleTask" class="com.cn.hy.project.modular.schedule.ScheduleTask"
+	<bean name="scheduleTask" class="com.cn.hy.project.modular.schedule.ScheduleTask"
 		lazy-init="false"></bean>
 	<task:scheduled-tasks>
-		<task:scheduled ref="scheduleTask" method="helloWorld"
-			cron="0 */3 * * * ?" />
-	</task:scheduled-tasks>  -->
+		<task:scheduled ref="scheduleTask" method="websocketTask"
+			cron="*/15 * * * * ?" />
+	</task:scheduled-tasks>
 	<!-- spring 配置文件 定时任务 end -->
 </beans>           
