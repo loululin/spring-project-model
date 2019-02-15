@@ -12,8 +12,8 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<spring.version>4.3.9.RELEASE</spring.version>
-		<jackson.databind-version>2.7.4</jackson.databind-version>
+		<spring.version>4.3.18.RELEASE</spring.version>
+		<jackson.databind-version>2.9.8</jackson.databind-version>
 	</properties>
 
 	<dependencies>
